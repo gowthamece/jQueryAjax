@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <!--<label> First Name: </label> <input type="text" id="txtFirstName" />
+    <label> Last Name: </label> <input type="text" id="txtLastName" />
+    <br />
+    <br />-->
+    <button id="btnServerData">Get Employee List</button>
+    <br />
+    <br />
+    <hr />
+    <!--<div id="divHtml" style="color:blueviolet">
+    </div>-->
+    <table id="results"></table>
+</body>
+</html>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnServerData').click(function () {
+           // $("#divHtml").load('Sample.html'); //Load with Sample URL 
+           // $("#divHtml").load('Sample.html #divHtml'); //Load with Sample URL with selector 
+            //$("#divHtml").load("/Home/SendReceivedValue", { inputString: "Hello" }, function (response, status, xhr) {
+            //    if (status = "success") {
+            //        alert("Call Success : " + xhr.status);
+            //    }
+            //});
+
+            //$.get("/Home/GetEmployee", {empId:1}, function (response) {
+            //    alert(response[0].FirstName)
+            //});
+            //$.getJSON("/Home/GetEmployee", { empId: 1 }, function (response) {
+            //    alert(response[0].FirstName)   
+            //});
+            //$.post("/Home/PostEmployee", { EmployeeId: 1, FirstName: "Arun", LastName: "Kumar" }, function (response) {
+            //    $("#divHtml").html("FirstName:" + response.FirstName)
+            //});
+            //var employeeData = { EmployeeId: 1, FirstName: "Gowtham", LastName: "K" }
+            //$.ajax({
+            //    url: "/Home/PostEmployee",
+            //    data: employeeData,
+            //    dataType: 'json',
+            //    type: 'POST',
+            //    success: function (data, status, xhr) {
+            //        debugger;
+            //        $("#divHtml").html("Inserted Value:" + data.FirstName + "  " + data.LastName);
+            //    },
+            //    error: function (data, status, xhr) {
+
+            //    }
+
+
+            //});
+            $('#results').empty();
+            $.ajax({
+                url: "/Home/GetEmployeeList",
+                // data: employeeData,
+                dataType: 'json',
+                type:'GET',
+                success: function (data, status, xhr) {
+                    debugger;
+                    //  $("#divHtml").html("Inserted Value:" + data.FirstName + "  " + data.LastName);
+                    
+                    var len = data.length;
+                    var firstRow = '<tr><th>Employee Id</th><th>First Name</th><th>Last Name</th></tr>';
+                    $('#results').append(firstRow);
+                    for (var i = 0; i < len; i++) {
+                        var row = '<tr>'+'<td>' + data[i].EmployeeId + '</td>' +'<td>' + data[i].FirstName + '</td>' + '<td>' + data[i].LastName + '</td>'+ '</tr>';
+
+                        $('#results').append(row);
+                    }
+                },
+                error: function (data, status, xhr) {
+
+                },
+            });
+        })
+    });
+</script>
